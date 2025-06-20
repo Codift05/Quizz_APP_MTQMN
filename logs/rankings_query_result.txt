@@ -1,0 +1,14 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 4
+            [username] => RaffiGolonda
+            [profile_image] => uploads/profile_images/profile_6854d856849d7_1750390870_4.jpeg
+            [quiz_count] => 1
+            [avg_percentage] => 90
+            [total_correct] => 9
+            [total_questions] => 10
+        )
+
+)

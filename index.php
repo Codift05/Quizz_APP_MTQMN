@@ -93,11 +93,13 @@ require_once 'auth/auth.php';
                 </a>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <div class="feature-title">Peringkat</div>
-                <div class="feature-desc">
-                    Bandingkan skor dengan peserta lain
-                </div>
+                <a href="ranking.php">
+                    <div class="feature-icon">🏆</div>
+                    <div class="feature-title">Peringkat</div>
+                    <div class="feature-desc">
+                        Bandingkan skor dengan peserta lain
+                    </div>
+                </a>
             </div>
         </div>
 

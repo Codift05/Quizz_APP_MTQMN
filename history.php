@@ -33,14 +33,11 @@ try {
             backdrop-filter: blur(10px);
             max-width: 800px;
             margin: 5rem auto 2rem;
-            /* Ubah dari 2rem menjadi 5rem di bagian atas */
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             position: relative;
-            /* Tambahkan position relative */
             z-index: 1;
-            /* Tambahkan z-index rendah */
         }
 
         /* Pastikan user-menu memiliki z-index lebih tinggi */
@@ -52,7 +49,6 @@ try {
             gap: 1rem;
             align-items: center;
             z-index: 10;
-            /* Tambahkan z-index lebih tinggi */
         }
 
         /* CSS lainnya tetap sama */

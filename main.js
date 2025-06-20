@@ -181,6 +181,7 @@ async function showResults() {
                 totalQuestions: questions.length,
                 percentage: percentage
             }),
+            credentials: 'include'
         });
         
         if (!response.ok) {
