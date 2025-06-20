@@ -129,12 +129,13 @@ try {
             background: #3498db;
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 5px;
             border-radius: 5px;
             text-decoration: none;
             font-size: 0.9rem;
             display: inline-block;
             margin-right: 0.5rem;
+            margin-bottom: 5px;
         }
 
         .action-btn.danger {
@@ -189,11 +190,11 @@ try {
 
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">Manage Questions</h1>
+            <h1 class="admin-title">Kelola Soal</h1>
             <div class="admin-nav">
                 <a href="admin-panel.php">Dashboard</a>
-                <a href="add-question.php">Add Question</a>
-                <a href="../index.php">View Quiz</a>
+                <a href="add-question.php">Tambah Soal</a>
+                <a href="../index.php">Halaman Kuis</a>
             </div>
         </div>
 
@@ -210,18 +211,18 @@ try {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Question</th>
-                    <th>Type</th>
-                    <th>Answer</th>
-                    <th>Category</th>
-                    <th>Difficulty</th>
+                    <th>Pertanyaan</th>
+                    <th>Tipe</th>
+                    <th>Jawaban</th>
+                    <th>Kategori</th>
+                    <th>Tingkat Kesulitan</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($questions)): ?>
                     <tr>
-                        <td colspan="7" style="text-align: center;">No questions found</td>
+                        <td colspan="7" style="text-align: center;">Tidak ada pertanyaan</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($questions as $question): ?>
@@ -259,7 +260,7 @@ try {
         <?php endif; ?>
 
         <div style="text-align: center; margin-top: 2rem;">
-            <a href="add-question.php" class="btn-primary">Add New Question</a>
+            <a href="add-question.php" class="btn-primary">Tambah Soal Baru</a>
         </div>
     </div>
 </body>

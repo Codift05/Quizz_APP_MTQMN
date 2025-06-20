@@ -134,11 +134,11 @@ try {
 
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">Admin Dashboard</h1>
+            <h1 class="admin-title">Dashboard Admin</h1>
             <div class="admin-nav">
-                <a href="add-question.php">Add Question</a>
-                <a href="manage-questions.php">Manage Questions</a>
-                <a href="../index.php">View Quiz</a>
+                <a href="add-question.php">Tambah Soal</a>
+                <a href="manage-questions.php">Kelola Soal</a>
+                <a href="../index.php">Halaman Kuis</a>
             </div>
         </div>
 
@@ -149,29 +149,29 @@ try {
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number"><?php echo $totalQuestions; ?></div>
-                <div class="stat-label">Total Questions</div>
+                <div class="stat-label">Total Soal</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number"><?php echo count($recentResults); ?></div>
-                <div class="stat-label">Quiz Attempts</div>
+                <div class="stat-label">Total Pengerjaan Kuis</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number"><?php echo $avgScore; ?>%</div>
-                <div class="stat-label">Average Score</div>
+                <div class="stat-label">Skor Rata-rata</div>
             </div>
         </div>
 
         <div class="data-card">
-            <h2 class="section-title">Recent Quiz Results</h2>
+            <h2 class="section-title">Hasil kuis</h2>
             <?php if (empty($recentResults)): ?>
-                <p>No quiz results yet.</p>
+                <p>Belum ada hasil kuis.</p>
             <?php else: ?>
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Score</th>
-                            <th>Percentage</th>
+                            <th>Tanggal</th>
+                            <th>Skor</th>
+                            <th>Persentase</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,7 +188,7 @@ try {
         </div>
 
         <div style="text-align: center; margin-top: 2rem;">
-            <a href="add-question.php" class="btn-primary">Add New Question</a>
+            <a href="add-question.php" class="btn-primary">Tambah Soal Baru</a>
         </div>
     </div>
 </body>

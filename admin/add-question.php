@@ -180,26 +180,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">Add New Question</h1>
+            <h1 class="admin-title">Tambah Soal Baru</h1>
             <div class="admin-nav">
                 <a href="admin-panel.php">Dashboard</a>
-                <a href="manage-questions.php">Manage Questions</a>
-                <a href="../index.php">View Quiz</a>
+                <a href="manage-questions.php">Kelola Soal</a>
+                <a href="../index.php">Halaman Kuis</a>
             </div>
         </div>
 
         <?php echo $message; ?>
 
-        <div class="question-type-badge">Pilihan Ganda</div>
-
         <form method="post" action="">
             <div class="form-group">
-                <label for="text">Question Text*</label>
+                <label for="text">Soal</label>
                 <input type="text" id="text" name="text" required value="<?php echo $_POST['text'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
-                <label for="arabic_text">Arabic Text (optional)</label>
+                <label for="arabic_text">Teks Arab (opsional)</label>
                 <textarea id="arabic_text" name="arabic_text" rows="3"><?php echo $_POST['arabic_text'] ?? ''; ?></textarea>
             </div>
 
@@ -207,12 +205,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="hidden" name="type" value="multiple">
 
             <div class="form-group">
-                <label for="answer">Correct Answer*</label>
+                <label for="answer">Jawaban</label>
                 <input type="text" id="answer" name="answer" required value="<?php echo $_POST['answer'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
-                <label>Options (for multiple choice)*</label>
+                <label>Opsi (untuk pilihan ganda)</label>
                 <div class="options-container" id="options-container">
                     <?php
                     if (isset($_POST['options']) && is_array($_POST['options'])) {
@@ -225,18 +223,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Default 3 empty options
                         for ($i = 0; $i < 3; $i++) {
                             echo '<div class="option-input">
-                                    <input type="text" name="options[]" placeholder="Option ' . ($i + 1) . '">
+                                    <input type="text" name="options[]" placeholder="Opsi ' . ($i + 1) . '">
                                   </div>';
                         }
                     }
                     ?>
                 </div>
-                <button type="button" class="add-option-btn" onclick="addOption()">+ Add Option</button>
-                <p><small>Note: The correct answer will be automatically added as an option if not included.</small></p>
+                <button type="button" class="add-option-btn" onclick="addOption()">+ Tambah Opsi</button>
+                <p><small>Note: Jawaban yang benar akan di tambahkan sebagai opsi jika tidak disertakan.</small></p>
             </div>
 
             <div class="form-group">
-                <label for="difficulty">Difficulty Level</label>
+                <label for="difficulty">Tingkat Kesulitan</label>
                 <select id="difficulty" name="difficulty">
                     <option value="easy" <?php echo (isset($_POST['difficulty']) && $_POST['difficulty'] === 'easy') ? 'selected' : ''; ?>>Easy</option>
                     <option value="medium" <?php echo (!isset($_POST['difficulty']) || $_POST['difficulty'] === 'medium') ? 'selected' : ''; ?>>Medium</option>
@@ -245,11 +243,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-                <label for="category">Category (optional)</label>
+                <label for="category">Kategori (Opsional)</label>
                 <input type="text" id="category" name="category" value="<?php echo $_POST['category'] ?? ''; ?>">
             </div>
 
-            <button type="submit" class="btn-primary" style="margin-top: 1rem;">Add Question</button>
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;">Tambah Soal</button>
         </form>
     </div>
 
