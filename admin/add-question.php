@@ -12,12 +12,15 @@ $message = '';
 // Process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate form data
-    if (empty($_POST['text']) || empty($_POST['answer']) || empty($_POST['type'])) {
+    if (empty($_POST['text']) || empty($_POST['answer'])) {
         $message = '<div style="color: red">Please fill in all required fields</div>';
     } else {
         try {
             // Begin transaction
             $db->beginTransaction();
+
+            // Set type to multiple choice always
+            $questionType = 'multiple';
 
             // Insert question
             $stmt = $db->prepare("INSERT INTO questions (text, arabic_text, type, answer, difficulty, category) 
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt->bindValue(':text', $_POST['text']);
             $stmt->bindValue(':arabic_text', $_POST['arabic_text'] ?? null);
-            $stmt->bindValue(':type', $_POST['type']);
+            $stmt->bindValue(':type', $questionType);
             $stmt->bindValue(':answer', $_POST['answer']);
             $stmt->bindValue(':difficulty', $_POST['difficulty'] ?? 'medium');
             $stmt->bindValue(':category', $_POST['category'] ?? null);
@@ -33,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $questionId = $db->lastInsertId();
 
-            // If multiple choice, insert options
-            if ($_POST['type'] === 'multiple' && isset($_POST['options'])) {
+            // Process multiple choice options
+            if (isset($_POST['options'])) {
                 // Remove empty options
                 $options = array_filter($_POST['options'], function ($option) {
                     return !empty(trim($option));
@@ -159,6 +162,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #3498db;
             text-decoration: none;
         }
+
+        .question-type-badge {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
@@ -169,13 +182,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="admin-header">
             <h1 class="admin-title">Add New Question</h1>
             <div class="admin-nav">
-                <a href="index.php">Dashboard</a>
+                <a href="admin-panel.php">Dashboard</a>
                 <a href="manage-questions.php">Manage Questions</a>
-                <a href="../index.php" target="_blank">View Quiz</a>
+                <a href="../index.php">View Quiz</a>
             </div>
         </div>
 
         <?php echo $message; ?>
+
+        <div class="question-type-badge">Pilihan Ganda</div>
 
         <form method="post" action="">
             <div class="form-group">
@@ -188,21 +203,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <textarea id="arabic_text" name="arabic_text" rows="3"><?php echo $_POST['arabic_text'] ?? ''; ?></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="type">Question Type*</label>
-                <select id="type" name="type" required onchange="toggleOptionsSection()">
-                    <option value="multiple" <?php echo (isset($_POST['type']) && $_POST['type'] === 'multiple') ? 'selected' : ''; ?>>Multiple Choice</option>
-                    <option value="text" <?php echo (isset($_POST['type']) && $_POST['type'] === 'text') ? 'selected' : ''; ?>>Text Input</option>
-                </select>
-            </div>
+            <!-- Hidden field for type, always set to multiple -->
+            <input type="hidden" name="type" value="multiple">
 
             <div class="form-group">
                 <label for="answer">Correct Answer*</label>
                 <input type="text" id="answer" name="answer" required value="<?php echo $_POST['answer'] ?? ''; ?>">
             </div>
 
-            <div id="options-section" class="form-group" <?php echo (isset($_POST['type']) && $_POST['type'] === 'text') ? 'style="display:none"' : ''; ?>>
-                <label>Options (for multiple choice)</label>
+            <div class="form-group">
+                <label>Options (for multiple choice)*</label>
                 <div class="options-container" id="options-container">
                     <?php
                     if (isset($_POST['options']) && is_array($_POST['options'])) {
@@ -244,17 +254,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        function toggleOptionsSection() {
-            const type = document.getElementById('type').value;
-            const optionsSection = document.getElementById('options-section');
-
-            if (type === 'multiple') {
-                optionsSection.style.display = 'block';
-            } else {
-                optionsSection.style.display = 'none';
-            }
-        }
-
         function addOption() {
             const container = document.getElementById('options-container');
             const newOption = document.createElement('div');

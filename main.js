@@ -9,7 +9,9 @@ let selectedOption = null;
 // Fetch questions from API
 async function fetchQuestions() {
     try {
-        const response = await fetch('api/get-questions.php?limit=10');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`api/get-questions.php?limit=10&t=${timestamp}`);
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -20,7 +22,6 @@ async function fetchQuestions() {
         return [];
     }
 }
-
 async function startQuiz() {
     // Show loading indicator
     document.getElementById('landing-page').classList.add('hidden');

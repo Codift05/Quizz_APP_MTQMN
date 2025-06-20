@@ -138,7 +138,7 @@ try {
             <div class="admin-nav">
                 <a href="add-question.php">Add Question</a>
                 <a href="manage-questions.php">Manage Questions</a>
-                <a href="../index.php" target="_blank">View Quiz</a>
+                <a href="../index.php">View Quiz</a>
             </div>
         </div>
 

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'config/database.php';
 require_once 'auth/auth.php';
 ?>
 <!DOCTYPE html>
@@ -32,6 +32,11 @@ require_once 'auth/auth.php';
         .user-menu .username {
             font-weight: bold;
         }
+
+        .feature-card a {
+            text-decoration: none;
+            color: inherit;
+        }
     </style>
 </head>
 
@@ -56,7 +61,7 @@ require_once 'auth/auth.php';
             <?php endif; ?>
             <span class="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <?php if (isAdmin()): ?>
-                <a href="admin/index.php">Admin Panel</a>
+                <a href="admin/admin-panel.php">Admin Panel</a>
             <?php endif; ?>
             <a href="logout.php">Logout</a>
         <?php else: ?>
@@ -79,18 +84,13 @@ require_once 'auth/auth.php';
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <div class="feature-title">Soal Beragam</div>
-                <div class="feature-desc">
-                    Berbagai kategori soal dari mudah hingga sulit
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <div class="feature-title">Skor Real-time</div>
-                <div class="feature-desc">
-                    Lihat progres dan nilai secara langsung
-                </div>
+                <a href="history.php">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Riwayat Hasil Kuis</div>
+                    <div class="feature-desc">
+                        Lihat detail riwayat hasil kuis yang sudah kamu kerjakan
+                    </div>
+                </a>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏆</div>

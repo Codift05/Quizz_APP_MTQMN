@@ -6,7 +6,7 @@ $error = '';
 
 // Redirect if already logged in
 if (isLoggedIn()) {
-    $redirect = $_SESSION['user_role'] === 'admin' ? 'admin/index.php' : 'index.php';
+    $redirect = $_SESSION['user_role'] === 'admin' ? 'admin/admin-panel.php' : 'index.php';
     header("Location: $redirect");
     exit;
 }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['redirect_after_login']);
                     header("Location: $redirect");
                 } else {
-                    $redirect = $user['role'] === 'admin' ? 'admin/index.php' : 'index.php';
+                    $redirect = $user['role'] === 'admin' ? 'admin/admin-panel.php' : 'index.php';
                     header("Location: $redirect");
                 }
                 exit;

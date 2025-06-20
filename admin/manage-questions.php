@@ -191,9 +191,9 @@ try {
         <div class="admin-header">
             <h1 class="admin-title">Manage Questions</h1>
             <div class="admin-nav">
-                <a href="index.php">Dashboard</a>
+                <a href="admin-panel.php">Dashboard</a>
                 <a href="add-question.php">Add Question</a>
-                <a href="../index.php" target="_blank">View Quiz</a>
+                <a href="../index.php">View Quiz</a>
             </div>
         </div>
 
