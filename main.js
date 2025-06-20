@@ -1,36 +1,45 @@
 // main.js untuk Kuis Al-Qur'an Interaktif
 
-const questions = [
-    {
-        text: 'Siapa nama nabi yang disebutkan dalam ayat berikut?',
-        arabicText: 'مَا اسْمُ نَبِيِّنَا؟',
-        options: ['Musa', 'Isa', 'Muhammad', 'Nuh'],
-        answer: 'Muhammad',
-        type: 'multiple'
-    },
-    {
-        text: 'Apa arti dari kata "Al-Fatihah"?',
-        arabicText: '',
-        options: ['Pembukaan', 'Penutup', 'Cahaya', 'Surga'],
-        answer: 'Pembukaan',
-        type: 'multiple'
-    },
-    {
-        text: 'Surah apakah yang dimulai dengan ayat berikut?',
-        arabicText: 'اِقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ',
-        answer: 'Al-Alaq',
-        type: 'text'
-    }
-];
-
+let questions = [];
 let currentQuestion = 0;
 let score = 0;
 let wrongAnswers = [];
 let selectedOption = null;
 
-function startQuiz() {
+// Fetch questions from API
+async function fetchQuestions() {
+    try {
+        const response = await fetch('api/get-questions.php?limit=10');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        return [];
+    }
+}
+
+async function startQuiz() {
+    // Show loading indicator
     document.getElementById('landing-page').classList.add('hidden');
     document.getElementById('quiz-page').classList.remove('hidden');
+    document.getElementById('question-text').textContent = 'Loading questions...';
+    
+    // Fetch questions
+    questions = await fetchQuestions();
+    
+    if (questions.length === 0) {
+        document.getElementById('question-text').textContent = 
+            'Error loading questions. Please try again later.';
+        return;
+    }
+    
+    currentQuestion = 0;
+    score = 0;
+    wrongAnswers = [];
+    selectedOption = null;
     showQuestion();
 }
 
@@ -40,7 +49,7 @@ function showQuestion() {
     const progress = ((currentQuestion + 1) / questions.length) * 100;
     document.getElementById('progress-bar').style.width = progress + '%';
     document.getElementById('question-text').textContent = question.text;
-    document.getElementById('arabic-text').textContent = question.arabicText || '';
+    document.getElementById('arabic-text').textContent = question.arabic_text || '';
     document.getElementById('feedback').classList.add('hidden');
     document.getElementById('submit-btn').classList.remove('hidden');
     document.getElementById('next-btn').classList.add('hidden');
@@ -91,7 +100,7 @@ function submitAnswer() {
         showFeedback(false, `Salah! Jawaban yang benar adalah: ${question.answer}`);
         wrongAnswers.push({
             question: question.text,
-            arabicText: question.arabicText,
+            arabicText: question.arabic_text,
             userAnswer: userAnswer,
             correctAnswer: question.answer
         });
@@ -132,7 +141,7 @@ function nextQuestion() {
     }
 }
 
-function showResults() {
+async function showResults() {
     document.getElementById('quiz-page').classList.add('hidden');
     document.getElementById('result-page').classList.remove('hidden');
     const percentage = Math.round((score / questions.length) * 100);
@@ -158,6 +167,30 @@ function showResults() {
     } else {
         wrongSection.innerHTML = '<div style="text-align: center; color: #27ae60; font-size: 1.2rem;">🎉 Sempurna! Semua jawaban benar!</div>';
     }
+    
+    // Save results to database
+    try {
+        const response = await fetch('api/save-results.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                score: score,
+                totalQuestions: questions.length,
+                percentage: percentage
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('Result saved:', result);
+    } catch (error) {
+        console.error('Error saving results:', error);
+    }
 }
 
 function restartQuiz() {
@@ -166,8 +199,7 @@ function restartQuiz() {
     wrongAnswers = [];
     selectedOption = null;
     document.getElementById('result-page').classList.add('hidden');
-    document.getElementById('quiz-page').classList.remove('hidden');
-    showQuestion();
+    startQuiz();
 }
 
 function backToHome() {
