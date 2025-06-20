@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -45,7 +46,7 @@ function getCurrentUser()
     }
 
     global $db;
-    $stmt = $db->prepare("SELECT id, username, email, role FROM users WHERE id = :id");
+    $stmt = $db->prepare("SELECT id, username, email, role, profile_image FROM users WHERE id = :id");
     $stmt->bindValue(':id', $_SESSION['user_id']);
     $stmt->execute();
     return $stmt->fetch();

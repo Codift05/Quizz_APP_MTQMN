@@ -41,6 +41,19 @@ require_once 'auth/auth.php';
     <!-- User Menu -->
     <div class="user-menu">
         <?php if (isLoggedIn()): ?>
+            <?php
+            $currentUser = getCurrentUser();
+            $profileImage = !empty($currentUser['profile_image']) && file_exists($currentUser['profile_image'])
+                ? $currentUser['profile_image']
+                : null;
+            ?>
+            <?php if ($profileImage): ?>
+                <a href="profile.php" class="avatar-link"><img src="<?php echo $profileImage; ?>" alt="Profile" class="user-menu-avatar"></a>
+            <?php else: ?>
+                <a href="profile.php" class="avatar-link">
+                    <div class="user-menu-avatar-placeholder"><?php echo strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
+                </a>
+            <?php endif; ?>
             <span class="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <?php if (isAdmin()): ?>
                 <a href="admin/index.php">Admin Panel</a>
