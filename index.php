@@ -73,7 +73,7 @@ require_once 'auth/auth.php';
     <!-- Landing Page -->
     <div id="landing-page" class="container">
         <div class="landing-header">
-            <div class="logo">📖</div>
+            <div class="logo"><img src="uploads/images/logo_qiza.png" alt=""></div>
             <h1 class="landing-title">Kuis Al-Qur'an Interaktif</h1>
             <p class="landing-subtitle">
                 Uji pengetahuanmu tentang Al-Qur'an dengan kuis interaktif
